@@ -1,35 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import NavBar from './components/common/NavBar';
+import NonUserHome from './components/home/NonUserHome';
+import UserHome from './components/home/UserHome';
+import Login from './components/auth/Login';
+import Register from './components/auth/Register';
+import AllTimelines from './components/timelines/AllTimelines';
+import Timeline from './components/timelines/Timeline';
+import AddTimeline from './components/timelines/AddTimeline';
+import AddEvent from './components/events/AddEvent';
+import EditEvent from './components/events/EditEvent';
+import Event from './components/events/Event';
+import Profile from './components/profile/Profile';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
-
-export default App
+    <Router>
+      <NavBar isAuthenticated={isAuthenticated} />
+      <Routes>
+        <Route path="/" element={isAuthenticated ? <UserHome /> : <NonUserHome />} />
+        <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/timelines" element={<AllTimelines />} />
+        <Route path="/timelines/:id" element={<Timeline />} />
+        <Route path="/add-timeline" element={<AddTimeline />} />
+        <Route path="/add-event" element={<AddEvent />} />
+        <Route path="/events/:id" element={<Event />} />
+        <Route path="/edit-event/:id" element={<EditEvent />} />
+        <Route path="/profile" element={<Profile />} />
+      </Routes>
+    </Router>
+  );
+};
