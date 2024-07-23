@@ -1,0 +1,35 @@
+Table users {
+  id int [pk, increment]
+  username varchar
+  password varchar
+  email varchar
+}
+
+Table timelines {
+  id int [pk, increment]
+  userId int
+  title varchar
+  description text
+  categoryId int
+  createdDate date
+}
+
+Table events {
+  id int [pk, increment]
+  timelineId int
+  title varchar
+  date date
+  description text
+  image varchar // Added column for image URLs
+}
+
+Table categories {
+  id int [pk, increment]
+  name varchar
+  description text
+}
+
+// Relationships
+Ref: timelines.userId > users.id
+Ref: events.timelineId > timelines.id
+Ref: timelines.categoryId > categories.id
