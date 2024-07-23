@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import NavBar from './components/common/NavBar';
-import NonUserHome from './components/home/NonUserHome';
-import UserHome from './components/home/UserHome';
-import Login from './components/auth/Login';
-import Register from './components/auth/Register';
-import AllTimelines from './components/timelines/AllTimelines';
-import Timeline from './components/timelines/Timeline';
-import AddTimeline from './components/timelines/AddTimeline';
-import AddEvent from './components/events/AddEvent';
-import EditEvent from './components/events/EditEvent';
-import Event from './components/events/Event';
-import Profile from './components/profile/Profile';
+import NavBar from './components/nav/NavBar';          // Updated path
+import NonUserHome from './components/home/NonUserHome'; // Updated path
+import UserHome from './components/home/UserHome';     // Updated path
+import Login from './components/authorization/Login'; // Updated path
+import Register from './components/authorization/Register'; // Updated path
+import AllTimelines from './components/timelines/AllTimelines'; // Updated path
+import Timeline from './components/timelines/Timeline'; // Updated path
+import AddTimeline from './components/timelines/AddTimeline'; // Updated path
+import AddEvent from './components/events/AddEvent';    // Updated path
+import EditEvent from './components/events/EditEvent';  // Updated path
+import Event from './components/events/Event';          // Updated path
+import Profile from './components/profiles/Profile';    // Updated path
 
-const App = () => {
+export const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   return (
