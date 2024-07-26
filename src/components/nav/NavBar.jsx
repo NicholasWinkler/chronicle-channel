@@ -6,33 +6,49 @@ export const NavBar = ({ isAuthenticated }) => {
     <nav>
       <ul className="navbar">
         <li className="navbar-item">
-          <Link className="navbar-link" to="/">Home</Link>
+          <Link className="navbar-link" to="/">
+            Home
+          </Link>
         </li>
         {isAuthenticated ? (
           <>
             <li className="navbar-item">
-              <Link className="navbar-link" to="/timelines">All Timelines</Link>
+              <Link className="navbar-link" to="/timelines">
+                All Timelines
+              </Link>
             </li>
             <li className="navbar-item">
-              <Link className="navbar-link" to="/add-timeline">Add Timeline</Link>
+              <Link className="navbar-link" to="/add-timeline">
+                Add Timeline
+              </Link>
             </li>
             <li className="navbar-item">
-              <Link className="navbar-link" to="/add-event">Add Event</Link>
+              <Link className="navbar-link" to="/add-event">
+                Add Event
+              </Link>
             </li>
             <li className="navbar-item">
-              <Link className="navbar-link" to="/profile">Profile</Link>
+              <Link className="navbar-link" to="/profile">
+                Profile
+              </Link>
             </li>
             <li className="navbar-item">
-              <Link className="navbar-link" to="/logout">Logout</Link>
+              <Link className="navbar-link" to="/logout">
+                Logout
+              </Link>
             </li>
           </>
         ) : (
           <>
             <li className="navbar-item">
-              <Link className="navbar-link" to="/login">Login</Link>
+              <Link className="navbar-link" to="/login">
+                Login
+              </Link>
             </li>
             <li className="navbar-item">
-              <Link className="navbar-link" to="/register">Register</Link>
+              <Link className="navbar-link" to="/register">
+                Register
+              </Link>
             </li>
           </>
         )}
@@ -40,4 +56,3 @@ export const NavBar = ({ isAuthenticated }) => {
     </nav>
   );
 };
-
