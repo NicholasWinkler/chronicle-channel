@@ -3,22 +3,32 @@ import { Login } from "./components/authorization/Login";
 import { Register } from "./components/authorization/Register";
 import { Authorized } from "./views/Authorized";
 import { NonUserHome } from "./components/homepage/NonUserHome";
-import { NavBar } from "./components/nav/NavBar";
 import { UserHome } from "./components/homepage/UserHome";
+import { NavBar } from "./components/nav/NavBar";
+import { useEffect, useState } from "react";
+import { ApplicationViews } from "./views/ApplicationViews";
 
 export const App = () => {
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    const localChronicleUser = localStorage.getItem("chronicle_user");
+    const foundUser = JSON.parse(localChronicleUser);
+    setCurrentUser(foundUser);
+  }, []);
+
   return (
     <div>
-      <NavBar />
+      <NavBar isAuthenticated={currentUser !== null} />
       <Routes>
-        <Route path="/" element={<NonUserHome />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/" element={currentUser ? <UserHome /> : <NonUserHome />} />
+        <Route path="/login" element={<Login setCurrentUser={setCurrentUser} />} />
+        <Route path="/register" element={<Register setCurrentUser={setCurrentUser} />} />
         <Route
           path="*"
           element={
             <Authorized>
-              <UserHome />
+              <ApplicationViews />
             </Authorized>
           }
         />
