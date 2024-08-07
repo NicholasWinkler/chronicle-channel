@@ -1,90 +1,70 @@
-import { useEffect, useState } from "react";
-import { createTimeline } from "../../services/timelineService";
-import "./Timelines.css";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { createTimeline } from '../../services/timelineService';
+import { getAllCategories } from '../../services/categoriesService';
 
 export const AddTimeline = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
-  const [userId, setUserId] = useState(null);
+  const [timeline, setTimeline] = useState({
+    title: '',
+    description: '',
+    categoryId: '', // Added to match the updated structure
+    userId: JSON.parse(localStorage.getItem("chronicle_user")).id
+  });
+  const [categories, setCategories] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("chronicle_user"));
-    if (user && user.id) {
-      setUserId(user.id);
-    } else {
-      console.error("User ID not found.");
-    }
+    // Fetch categories for the dropdown
+    getAllCategories().then(setCategories);
   }, []);
 
-  const handleTitleChange = (e) => setTitle(e.target.value);
-  const handleDescriptionChange = (e) => setDescription(e.target.value);
-  const handleCategoryChange = (e) => setCategory(e.target.value);
+  const handleChange = (event) => {
+    setTimeline({ ...timeline, [event.target.name]: event.target.value });
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const newTimeline = {
-      userId: userId,
-      title,
-      description,
-      categoryId: parseInt(category, 10),
-      createdDate: new Date().toISOString().split("T")[0],
+      ...timeline,
+      createdDate: new Date().toISOString().split('T')[0] // Set createdDate to the current date in YYYY-MM-DD format
     };
-    createTimeline(newTimeline)
-      .then((response) => {
-        console.log("Timeline created:", response);
-        setTitle("");
-        setDescription("");
-        setCategory("");
-      })
-      .catch((error) => {
-        console.error("Error creating timeline:", error);
-      });
+    createTimeline(newTimeline).then(() => navigate('/timelines'));
   };
 
   return (
-    <div className="timeline-form">
-      <h1>Create Timeline</h1>
+    <div>
+      <h1>Add Timeline</h1>
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="title">Title</label>
-          <input
-            type="text"
-            id="title"
-            value={title}
-            onChange={handleTitleChange}
-            required
+        <label>
+          Title:
+          <input 
+            name="title" 
+            value={timeline.title} 
+            onChange={handleChange} 
+            required 
           />
-        </div>
-        <div className="form-group">
-          <label htmlFor="description">Description</label>
-          <textarea
-            id="description"
-            value={description}
-            onChange={handleDescriptionChange}
-            required
+        </label>
+        <label>
+          Description:
+          <input 
+            name="description" 
+            value={timeline.description} 
+            onChange={handleChange} 
+            required 
           />
-        </div>
-        <div className="form-group">
-          <label htmlFor="category">Category</label>
-          <select
-            id="category"
-            value={category}
-            onChange={handleCategoryChange}
-            required
-          >
-            <option value="">Select a category</option>
-            <option value="1">Business</option>
-            <option value="2">Education</option>
-            <option value="3">Personal</option>
-            <option value="4">Other</option>
+        </label>
+        <label>
+          Category:
+          <select name="categoryId" value={timeline.categoryId} onChange={handleChange}>
+            <option value="">Select Category</option>
+            {categories.map(category => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
           </select>
-        </div>
-        <div>
-          <button className="submit-button" type="submit">
-            Submit
-          </button>
-        </div>
+        </label>
+        <button type="submit">Save</button>
       </form>
     </div>
   );

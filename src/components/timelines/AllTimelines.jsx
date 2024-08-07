@@ -1,110 +1,61 @@
-import { useEffect, useState } from "react";
-import { getAllTimelines, deleteTimeline } from "../../services/timelineService";
-import { getCategories } from "../../services/categoriesService";
-import { Link, useNavigate } from "react-router-dom";
-import "./Timelines.css";
-import { TimelineFilterDropdown } from "./TimelineFilterBar";
-import { TimelineSearch } from "./TimelineSearch";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { deleteTimeline, getAllTimelines } from '../../services/timelineService';
 
 export const AllTimelines = () => {
-  const [allTimelines, setAllTimelines] = useState([]);
-  const [userId, setUserId] = useState(null);
-  const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [timelines, setTimelines] = useState([]);
+  const [search, setSearch] = useState('');
+  const [category, setCategory] = useState('');
   const navigate = useNavigate();
-
-  const fetchTimelines = () => {
-    const user = JSON.parse(localStorage.getItem("chronicle_user"));
-    if (user && user.id) {
-      setUserId(user.id);
-
-      getAllTimelines()
-        .then((timelineArray) => {
-          const userTimelines = timelineArray.filter(
-            (timeline) => timeline.userId === user.id
-          );
-          setAllTimelines(userTimelines);
-        })
-        .catch((error) => {
-          console.error("Error fetching timelines:", error);
-        });
-    } else {
-      window.alert("User ID not found. Please log in again.");
-    }
-  };
+  const userId = JSON.parse(localStorage.getItem('chronicle_user')).id; // Get logged-in user ID
 
   useEffect(() => {
-    fetchTimelines();
-  }, []);
+    getAllTimelines(userId).then(setTimelines);
+  }, [userId]);
 
-  useEffect(() => {
-    getCategories()
-      .then((cats) => {
-        setCategories(cats);
-      })
-      .catch((error) => {
-        console.error("Error fetching categories:", error);
-      });
-  }, []);
-
-  const handleDelete = (id) => {
-    deleteTimeline(id)
-      .then(() => {
-        setAllTimelines(allTimelines.filter((timeline) => timeline.id !== id));
-        console.log("Timeline deleted with id:", id);
-      })
-      .catch((error) => console.error("Error deleting timeline:", error));
+  const handleDeleteTimeline = (id) => {
+    deleteTimeline(id).then(() => {
+      setTimelines(timelines.filter(timeline => timeline.id !== id));
+    });
   };
 
-  const handleUpdate = (updatedTimeline) => {
-    setAllTimelines(allTimelines.map((timeline) =>
-      timeline.id === updatedTimeline.id ? updatedTimeline : timeline
-    ));
+  const handleSearch = (event) => {
+    setSearch(event.target.value);
   };
 
-  const filteredTimelines = allTimelines
-    .filter((timeline) =>
-      timeline.title.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-    .filter((timeline) =>
-      selectedCategory ? timeline.category.id === parseInt(selectedCategory, 10) : true
-    );
+  const handleCategoryChange = (event) => {
+    setCategory(event.target.value);
+  };
+
+  const filteredTimelines = timelines.filter(timeline =>
+    timeline.title.toLowerCase().includes(search.toLowerCase()) &&
+    (category === '' || timeline.category.name === category)
+  );
 
   return (
-    <div className="timeline-container">
-      <h2>All Timelines</h2>
-      <div className="filter-bar">
-        <TimelineFilterDropdown
-          categories={categories}
-          selectedCategory={selectedCategory}
-          onCategoryChange={(categoryId) => setSelectedCategory(categoryId)}
-        />
-        <TimelineSearch
-          searchQuery={searchQuery}
-          onSearchChange={(query) => setSearchQuery(query)}
-        />
-      </div>
-      <Link to="/add-timeline">
-        <button className="btn-create-new">Create New Timeline</button>
-      </Link>
-      <article className="timelines">
-        {filteredTimelines.map((timeline) => (
-          <section className="timeline" key={timeline.id}>
-            <Link to={`/timelines/${timeline.id}`}>
-              <header className="timeline-info">Title: {timeline.title}</header>
-              <div className="timeline-info">Category: {timeline.category.name}</div>
-              <div className="timeline-info">Description: {timeline.description}</div>
-            </Link>
-            <footer className="timeline-actions">
-              <button onClick={() => navigate(`/edit-timeline/${timeline.id}`, { state: { handleUpdate } })}>
-                Edit
-              </button>
-              <button onClick={() => handleDelete(timeline.id)}>Delete</button>
-            </footer>
-          </section>
+    <div>
+      <h1>All Timelines</h1>
+      <button onClick={() => navigate('/add-timeline')}>Add New Timeline</button>
+      <input type="text" placeholder="Search" value={search} onChange={handleSearch} />
+      <select value={category} onChange={handleCategoryChange}>
+        <option value="">All Categories</option>
+        <option value="Business">Business</option>
+        <option value="Education">Education</option>
+        <option value="Personal">Personal</option>
+        <option value="Other">Other</option>
+      </select>
+      <ul>
+        {filteredTimelines.map(timeline => (
+          <li key={timeline.id}>
+            <h2>{timeline.title}</h2>
+            <p>{timeline.description}</p>
+            <p>Category: {timeline.category.name}</p>
+            <button onClick={() => navigate(`/edit-timeline/${timeline.id}`)}>Edit</button>
+            <button onClick={() => handleDeleteTimeline(timeline.id)}>Delete</button>
+            <button onClick={() => navigate(`/timelines/${timeline.id}`)}>View Events</button>
+          </li>
         ))}
-      </article>
+      </ul>
     </div>
   );
 };

@@ -17,9 +17,19 @@ export const createEvent = (event) => {
         body: JSON.stringify(event),
     }).then((res) => res.json())
 }
-
-export const deleteEvent = (id) => {
+  
+  export const deleteEvent = (id) => {
     return fetch(`http://localhost:3000/events/${id}`, {
       method: "DELETE",
-    }).then((res) => res.json());
+    });
+  };
+  
+  export const updateEvent = (id, updatedEvent) => {
+    return fetch(`http://localhost:3000/events/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedEvent),
+    }).then(response => response.json());
   };

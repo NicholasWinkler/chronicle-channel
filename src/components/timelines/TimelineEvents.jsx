@@ -1,46 +1,49 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { getTimelineById, deleteTimeline } from "../../services/timelineService";
-import "./Timelines.css";
-import { allEvents } from "../../services/eventService";
+import { useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { getTimelineById } from '../../services/timelineService';
+import { allEvents, deleteEvent } from '../../services/eventService';
 
 export const TimelineEvents = () => {
-  const { id } = useParams(); // Get the timeline ID from the URL
-  const [timeline, setTimeline] = useState(null);
+  const { timelineId } = useParams();
   const [events, setEvents] = useState([]);
-  const navigate = useNavigate();
+  const [timelineTitle, setTimelineTitle] = useState('');
 
   useEffect(() => {
     // Fetch the timeline details
-    getTimelineById(id)
-      .then((data) => setTimeline(data))
-      .catch((error) => console.error("Error fetching timeline:", error));
+    getTimelineById(timelineId).then(timeline => {
+      setTimelineTitle(timeline.title);
+    });
 
-    // Fetch events for the timeline
-    allEvents()
-      .then((eventsArray) => setEvents(eventsArray.filter((event) => event.timelineId === parseInt(id, 10))))
-      .catch((error) => console.error("Error fetching events:", error));
-  }, [id]);
+    // Fetch the events associated with this timeline
+    fetchEvents();
+  }, [timelineId]);
 
-  const handleDeleteEvent = (eventId) => {
-    deleteTimeline(eventId)
-      .then(() => {
-        setEvents(events.filter((event) => event.id !== eventId));
-        console.log("Event deleted with id:", eventId);
-      })
-      .catch((error) => console.error("Error deleting event:", error));
+  const fetchEvents = () => {
+    allEvents().then(data => {
+      const filteredEvents = data.filter(event => event.timelineId === parseInt(timelineId));
+      setEvents(filteredEvents);
+    });
+  };
+
+  const handleDeleteEvent = (id) => {
+    deleteEvent(id).then(() => {
+      setEvents(events.filter(event => event.id !== id));
+    });
   };
 
   return (
-    <div className="timeline-events">
-      <h3>Events for Timeline: {timeline?.title}</h3>
-      <button onClick={() => navigate(`/add-event/${id}`)}>Add New Event</button>
-      {events.map((event) => (
+    <div>
+      <h1>{timelineTitle}</h1>
+      <p>Number of events: {events.length}</p>
+      <Link to={`/timelines`}><button>Back to All Timelines</button></Link>
+      <Link to={`/add-event`}><button>New Event</button></Link>
+      {events.map(event => (
         <div key={event.id} className="event-card">
-          <h4>{event.title}</h4>
+          <h2>{event.title}</h2>
           <p>{event.date}</p>
           <p>{event.description}</p>
-          <button onClick={() => navigate(`/edit-event/${event.id}`)}>Edit</button>
+          <img src={event.image} alt={event.title} />
+          <Link to={`/edit-event/${event.id}`}><button>Edit</button></Link>
           <button onClick={() => handleDeleteEvent(event.id)}>Delete</button>
         </div>
       ))}

@@ -8,6 +8,7 @@ import { Profile } from "../components/profiles/Profile";
 import { EditProfile } from "../components/profiles/EditProfile";
 import { EditTimeline } from "../components/timelines/EditTimeline"; // Import the EditTimeline component
 import { TimelineEvents } from "../components/timelines/TimelineEvents";
+import { EditEvent } from "../components/events/EditEvent";
 
 export const ApplicationViews = () => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -31,6 +32,7 @@ export const ApplicationViews = () => {
         <Route path="editprofile" element={<EditProfile />} />
         <Route path="edit-timeline/:id" element={<EditTimeline />} />
         <Route path="/timelines/:timelineId" element={<TimelineEvents />} />
+        <Route path="edit-event/:id" element={<EditEvent />} />
       </Routes>
     </>
   );
