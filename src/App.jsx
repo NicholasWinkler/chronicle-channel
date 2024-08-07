@@ -13,13 +13,13 @@ export const App = () => {
 
   useEffect(() => {
     const localChronicleUser = localStorage.getItem("chronicle_user");
-    const foundUser = JSON.parse(localChronicleUser);
+    const foundUser = localChronicleUser ? JSON.parse(localChronicleUser) : null;
     setCurrentUser(foundUser);
   }, []);
 
   return (
     <div>
-      <NavBar isAuthenticated={currentUser !== null} />
+      <NavBar isAuthenticated={currentUser !== null} setCurrentUser={setCurrentUser} />
       <Routes>
         <Route path="/" element={currentUser ? <UserHome /> : <NonUserHome />} />
         <Route path="/login" element={<Login setCurrentUser={setCurrentUser} />} />

@@ -16,7 +16,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Roboto", serif;
+  font-family: "Nunito", sans-serif;
 }
 
 /* COLOR PALETTE */
@@ -30,6 +30,14 @@ h6 {
   --dark: #023047; /* Deep blue */
   --outline: #B3B3B3; /* Medium gray */
   --appBackground: #DDDADE; /* Light gray with a hint of color */
+
+  --accentGreen: #04AA6D; /* Vibrant green */
+  --accentRed: #E63946; /* Bold red */
+  --mutedBlue: #0077B6; /* Deep blue */
+  --softPink: #FF9AA2; /* Gentle pink */
+  --warmBeige: #D9BF77; /* Warm beige */
+  --coolGray: #9CA3AF; /* Cool gray */
+  --deepPurple: #6D28D9; /* Deep purple */
 }
 
 /* GLOBAL STYLES */
@@ -93,13 +101,3 @@ button {
 .btn-info:hover {
   background-color: #70a3d1; /* Slightly darker shade of the info color */
 }
-
-/* Welcome Section
-.welcome {
-  text-align: center;
-  margin: 5rem 14rem;
-  font-size: 4rem;
-  color: var(--dark);
-  font-weight: bold;
-  text-shadow: 2px 3px 4px var(--outline); */
-/* } */

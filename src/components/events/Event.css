@@ -1,0 +1,80 @@
+/* Style event input fields */
+.event-input, .event-select, .event-textarea {
+  width: calc(100% - 10px); /* Adjust width to account for margin */
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  resize: vertical;
+  margin-right: 5px; /* Reduce margin to decrease space between inputs and labels */
+}
+
+/* Style the label to display next to the inputs */
+.event-label {
+  padding: 12px 6px 12px 0; /* Reduce padding to bring labels closer to inputs */
+  display: inline-block;
+  width: 25%; /* Ensure labels are a fixed width */
+  box-sizing: border-box;
+}
+
+/* Style the submit button */
+.event-submit {
+  background-color: #04AA6D;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 10px; /* Add margin on all sides */
+  float: right; /* Align to the right */
+  display: block; /* Ensure it behaves as a block element */
+}
+
+/* Style the container */
+.event-container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  position: relative; /* Allow absolute positioning within container */
+}
+
+/* Floating column for labels: 25% width */
+.event-col-16 {
+  float: left;
+  width: 16%;
+  margin-top: 6px;
+}
+
+/* Floating column for inputs: 75% width */
+.event-col-75 {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.event-row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Position the submit button at the bottom right */
+.event-submit-container {
+  position: absolute;
+  bottom: 20px; /* Adjust as needed */
+  right: 20px; /* Adjust as needed */
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .event-col-25, .event-col-75, .event-submit {
+      width: 100%;
+      margin-top: 0;
+  }
+
+  .event-submit-container {
+      position: static; /* Reset position for small screens */
+      margin-top: 20px; /* Add margin for spacing */
+  }
+}

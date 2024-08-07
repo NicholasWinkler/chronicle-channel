@@ -1,58 +1,42 @@
 import "./NavBar.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
-export const NavBar = ({ isAuthenticated }) => {
+export const NavBar = ({ isAuthenticated, setCurrentUser }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Log the value of isAuthenticated
+  console.log('isAuthenticated:', isAuthenticated);
+
+  const isActive = (path) => location.pathname === path;
+
   return (
-    <nav>
-      <ul className="navbar">
-        <li className="navbar-item">
-          <Link className="navbar-link" to="/">
-            Home
-          </Link>
-        </li>
-        {isAuthenticated ? (
-          <>
-            <li className="navbar-item">
-              <Link className="navbar-link" to="/timelines">
-                All Timelines
-              </Link>
-            </li>
-            <li className="navbar-item">
-              <Link className="navbar-link" to="/add-timeline">
-                Add Timeline
-              </Link>
-            </li>
-            <li className="navbar-item">
-              <Link className="navbar-link" to="/add-event">
-                Add Event
-              </Link>
-            </li>
-            <li className="navbar-item">
-              <Link className="navbar-link" to="/profile">
-                Profile
-              </Link>
-            </li>
-            <li className="navbar-item">
-              <Link className="navbar-link" to="/logout">
-                Logout
-              </Link>
-            </li>
-          </>
-        ) : (
-          <>
-            <li className="navbar-item">
-              <Link className="navbar-link" to="/login">
-                Login
-              </Link>
-            </li>
-            <li className="navbar-item">
-              <Link className="navbar-link" to="/register">
-                Register
-              </Link>
-            </li>
-          </>
-        )}
-      </ul>
+    <nav className="navbar">
+      <Link className={`navbar-link ${isActive('/') ? 'active' : ''}`} to="/">Home</Link>
+      {isAuthenticated ? (
+        <>
+          <Link className={`navbar-link ${isActive('/timelines') ? 'active' : ''}`} to="/timelines">All Timelines</Link>
+          <Link className={`navbar-link ${isActive('/add-timeline') ? 'active' : ''}`} to="/add-timeline">Add Timeline</Link>
+          <Link className={`navbar-link ${isActive('/add-event') ? 'active' : ''}`} to="/add-event">Add Event</Link>
+          <Link className={`navbar-link ${isActive('/profile') ? 'active' : ''}`} to="/profile">Profile</Link>
+          <a
+            href="#"
+            className="navbar-link"
+            onClick={() => {
+              localStorage.removeItem("chronicle_user");
+              setCurrentUser(null); // Update the current user state
+              navigate("/", { replace: true });
+            }}
+          >
+            Logout
+          </a>
+        </>
+      ) : (
+        <>
+          <Link className={`navbar-link ${isActive('/login') ? 'active' : ''}`} to="/login">Login</Link>
+          <Link className={`navbar-link ${isActive('/register') ? 'active' : ''}`} to="/register">Register</Link>
+        </>
+      )}
     </nav>
   );
 };

@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 import { getUserByUsername } from "../../services/userService";
 
-export const Login = () => {
+export const Login = ({ setCurrentUser }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -12,16 +12,16 @@ export const Login = () => {
     e.preventDefault();
 
     getUserByUsername(username).then((foundUsers) => {
-      const user = foundUsers.find(user => user.password === password);
-      
+      const user = foundUsers.find((user) => user.password === password);
+
       if (user) {
-        localStorage.setItem(
-          "chronicle_user",
-          JSON.stringify({
-            id: user.id,
-            isStaff: user.isStaff,
-          })
-        );
+        const userData = {
+          id: user.id,
+          isStaff: user.isStaff,
+        };
+
+        localStorage.setItem("chronicle_user", JSON.stringify(userData));
+        setCurrentUser(userData); // Update the current user state
 
         navigate("/");
       } else {

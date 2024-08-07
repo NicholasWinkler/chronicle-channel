@@ -2,28 +2,31 @@
   display: flex;
   flex-wrap: nowrap;
   background-color: var(--dark);
+  overflow: hidden;
   margin: 0;
   width: 100%;
   padding: 0.5rem;
 }
 
-.navbar-item {
-  flex-basis: 20%;
-  list-style-type: none;
-  text-align: center;
-}
-
+/* Style the links inside the navigation bar */
 .navbar-link {
+  flex: 1;
+  color: var(--offWhite) !important;
+  text-align: center;
+  padding: 14px 16px;
   text-decoration: none;
   font-family: "Quicksand", sans-serif;
   letter-spacing: 1px;
-  color: var(--offWhite) !important;
 }
 
+/* Change the color of links on hover */
 .navbar-link:hover {
-  color: var(--primary) !important;
+  background-color: var(--primary) !important;
+  color: black;
 }
 
-.navbar-logout {
-  margin-left: auto;
+/* Add a color to the active/current link */
+.navbar-link.active {
+  background-color: #04AA6D;
+  color: white;
 }

@@ -1,0 +1,66 @@
+/* Container for user profile information */
+.profileContainer {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+    font-family: 'Baloo Paaji 2', cursive;
+    padding: 20px;
+  }
+  
+  /* Card for profile details */
+  .profileCard {
+    background-color: #222831;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: rgba(0, 0, 0, 0.7);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .profileCard h2 {
+    margin-bottom: 20px;
+    font-size: 2em;
+  }
+  
+  .profileCard div {
+    margin: 10px 0;
+    font-size: 1.2em;
+  }
+  
+  .editButton {
+    background: #58cdd1;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2em;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .editButton:hover {
+    background-color: #45b7b0;
+  }
+  
+  .editButton:focus {
+    outline: 2px dotted #55d7dc;
+  }
+  
+  /* Hide unused styles */
+  .container,
+  .card,
+  .card__image,
+  .card__name,
+  .grid-container,
+  .social-icons,
+  .btn,
+  .draw-border {
+    display: none; /* Hide unused styles */
+  }
+  
