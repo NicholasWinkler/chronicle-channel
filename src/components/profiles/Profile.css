@@ -1,66 +1,91 @@
-/* Container for user profile information */
+/* Basic styling for the profile page */
+
+/* Header styles */
+.header {
+  text-align: center;
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+/* Button styles */
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: white;
+}
+
+/* My Account Section styles */
+.myAccountSection {
+  max-width: 600px; /* Adjusted max width */
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Form group styles */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+}
+
+/* Form control styles */
+.form-control {
+  width: calc(100% - 16px); /* Adjust width to fit within container with padding */
+  max-width: 400px; /* Restricts maximum width */
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+/* Profile container styles */
 .profileContainer {
-    display: grid;
-    grid-template-columns: 1fr;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f5f5f5;
-    font-family: 'Baloo Paaji 2', cursive;
-    padding: 20px;
-  }
-  
-  /* Card for profile details */
-  .profileCard {
-    background-color: #222831;
-    border-radius: 5px;
-    padding: 20px;
-    box-shadow: rgba(0, 0, 0, 0.7);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .profileCard h2 {
-    margin-bottom: 20px;
-    font-size: 2em;
-  }
-  
-  .profileCard div {
-    margin: 10px 0;
-    font-size: 1.2em;
-  }
-  
-  .editButton {
-    background: #58cdd1;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1.2em;
-    margin-top: 20px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .editButton:hover {
-    background-color: #45b7b0;
-  }
-  
-  .editButton:focus {
-    outline: 2px dotted #55d7dc;
-  }
-  
-  /* Hide unused styles */
-  .container,
-  .card,
-  .card__image,
-  .card__name,
-  .grid-container,
-  .social-icons,
-  .btn,
-  .draw-border {
-    display: none; /* Hide unused styles */
-  }
-  
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header text styles */
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.header h1, .header h2 {
+  font-size: 2em;
+}
+
+.header p {
+  font-size: 1.2em;
+  color: #555;
+}
+
+/* Button primary hover state */
+.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1em;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+/* My Account Section margin-top */
+.myAccountSection {
+  margin-top: 20px;
+}
+
+.myAccountSection h3, .header h2 {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}

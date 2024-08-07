@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { getAllUsers, updateUser } from "../../services/userService";
+import "./Profile.css"; // Ensure you include your CSS file
 
 export const EditProfile = () => {
   const [userId, setUserId] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("chronicle_user"));
@@ -18,7 +22,9 @@ export const EditProfile = () => {
         const userDetails = data.find((user) => user.id === storedUser.id);
         console.log("User Details:", userDetails); // Debugging
         if (userDetails) {
-          // Optionally set fetched user details if needed elsewhere, but not in form fields
+          setUsername(userDetails.username || "");
+          setPassword(userDetails.password || "");
+          setEmail(userDetails.email || "");
         }
       }).catch((error) => {
         console.error("Error fetching users:", error);
@@ -42,9 +48,8 @@ export const EditProfile = () => {
     };
     updateUser(userId, updatedUser).then((response) => {
       console.log("Profile updated:", response);
-      setUsername("");
-      setPassword("");
-      setEmail("");
+      // Navigate back to profile page after successful update
+      navigate("/profile");
     })
     .catch((error) => {
       console.error("Error updating profile:", error);
@@ -52,10 +57,10 @@ export const EditProfile = () => {
   };
 
   return (
-    <div>
+    <div className="profileContainer">
       <h2>Edit Profile</h2>
       <form onSubmit={updateProfileSubmit}>
-        <div>
+        <div className="form-group">
           <label htmlFor="username">Username: </label>
           <input
             type="text"
@@ -64,10 +69,11 @@ export const EditProfile = () => {
             value={username}
             onChange={changeUsername}
             placeholder="Enter new username"
+            className="form-control"
           />
         </div>
 
-        <div>
+        <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
             type="password"
@@ -76,10 +82,11 @@ export const EditProfile = () => {
             value={password}
             onChange={changePassword}
             placeholder="Enter new password"
+            className="form-control"
           />
         </div>
 
-        <div>
+        <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
             type="email"
@@ -88,13 +95,15 @@ export const EditProfile = () => {
             value={email}
             onChange={changeEmail}
             placeholder="Enter new email"
+            className="form-control"
           />
         </div>
 
-        <div>
+        <div className="form-group">
           <input
             type="submit"
             value="Submit"
+            className="btn-primary"
           />
         </div>
       </form>

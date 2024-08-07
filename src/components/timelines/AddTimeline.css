@@ -1,0 +1,85 @@
+/* AddTimeline.css */
+
+/* Container for AddTimeline form */
+.add-timeline-container {
+    width: 50%;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: var(--white);
+    border: 1px solid var(--outline);
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative; /* For positioning the submit button */
+  }
+  
+  .add-timeline-container h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--dark);
+  }
+  
+  /* Form group styling */
+  .add-timeline-form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .add-timeline-form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: var(--dark);
+  }
+  
+  /* Input, select, and textarea styling */
+  .add-timeline-form-group input,
+  .add-timeline-form-group select,
+  .add-timeline-form-group textarea {
+    width: calc(100% - 1rem); /* Make the input fields slightly smaller */
+    padding: 0.5rem;
+    border: 1px solid var(--outline);
+    border-radius: 0.25rem;
+    box-sizing: border-box;
+  }
+  
+  .add-timeline-form-group textarea {
+    min-height: 150px; /* Set an initial height */
+    resize: vertical; /* Allow vertical resizing */
+  }
+  
+  /* Submit button container */
+  .add-timeline-submit-container {
+    position: absolute;
+    bottom: 2rem; /* Position at the bottom of the container */
+    right: 2rem; /* Position at the right side of the container */
+  }
+  
+  .add-timeline-submit {
+    background-color: var(--primary);
+    color: var(--white);
+    border: none;
+    border-radius: 0.25rem;
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .add-timeline-submit:hover {
+    background-color: var(--secondary);
+  }
+  
+  /* Responsive design for small screens */
+  @media screen and (max-width: 600px) {
+    .add-timeline-form-group input,
+    .add-timeline-form-group select,
+    .add-timeline-form-group textarea,
+    .add-timeline-submit {
+      width: 100%;
+      margin-top: 0;
+    }
+  
+    .add-timeline-submit-container {
+      position: static; /* Reset position for small screens */
+      margin-top: 20px; /* Add margin for spacing */
+    }
+  }
+  

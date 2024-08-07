@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { deleteTimeline, getAllTimelines } from '../../services/timelineService';
+import './AllTimelines.css'; // Import your updated CSS
 
 export const AllTimelines = () => {
   const [timelines, setTimelines] = useState([]);
@@ -27,32 +28,65 @@ export const AllTimelines = () => {
     setCategory(event.target.value);
   };
 
+  const handleTimelineClick = (id) => {
+    navigate(`/timelines/${id}`);
+  };
+
   const filteredTimelines = timelines.filter(timeline =>
     timeline.title.toLowerCase().includes(search.toLowerCase()) &&
     (category === '' || timeline.category.name === category)
   );
 
   return (
-    <div>
-      <h1>All Timelines</h1>
-      <button onClick={() => navigate('/add-timeline')}>Add New Timeline</button>
-      <input type="text" placeholder="Search" value={search} onChange={handleSearch} />
-      <select value={category} onChange={handleCategoryChange}>
-        <option value="">All Categories</option>
-        <option value="Business">Business</option>
-        <option value="Education">Education</option>
-        <option value="Personal">Personal</option>
-        <option value="Other">Other</option>
-      </select>
+    <div className="timelines">
+      <div className="filter-bar">
+        <input
+          className="timeline-search"
+          type="text"
+          placeholder="Search"
+          value={search}
+          onChange={handleSearch}
+        />
+        <select
+          className="category-select"
+          value={category}
+          onChange={handleCategoryChange}
+        >
+          <option value="">All Categories</option>
+          <option value="Business">Business</option>
+          <option value="Education">Education</option>
+          <option value="Personal">Personal</option>
+          <option value="Other">Other</option>
+        </select>
+        <button
+          className="filter-btn"
+          onClick={() => navigate('/add-timeline')}
+        >
+          Add New Timeline
+        </button>
+      </div>
       <ul>
         {filteredTimelines.map(timeline => (
-          <li key={timeline.id}>
-            <h2>{timeline.title}</h2>
-            <p>{timeline.description}</p>
-            <p>Category: {timeline.category.name}</p>
-            <button onClick={() => navigate(`/edit-timeline/${timeline.id}`)}>Edit</button>
-            <button onClick={() => handleDeleteTimeline(timeline.id)}>Delete</button>
-            <button onClick={() => navigate(`/timelines/${timeline.id}`)}>View Events</button>
+          <li key={timeline.id} className="timeline-item" onClick={() => handleTimelineClick(timeline.id)}>
+            <div className="timeline-content">
+              <h2>{timeline.title}</h2>
+              <p>{timeline.description}</p>
+              <p>Category: {timeline.category.name}</p>
+            </div>
+            <div className="timeline-actions">
+              <button
+                className="btn-primary"
+                onClick={(e) => { e.stopPropagation(); navigate(`/edit-timeline/${timeline.id}`); }}
+              >
+                Edit
+              </button>
+              <button
+                className="btn-primary"
+                onClick={(e) => { e.stopPropagation(); handleDeleteTimeline(timeline.id); }}
+              >
+                Delete
+              </button>
+            </div>
           </li>
         ))}
       </ul>
